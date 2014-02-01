@@ -309,7 +309,9 @@ SAM_Set_Carry_HL:
 ;================================================
 SAM_Map_HL_MEM:
 ;================================================
+	; HL has the var index, each var is 2 bytes, so Address = HL*2 + local_vars
 	ld bc, SAM_Processes.local_vars
+	add hl, hl		 
 	add hl, bc
 	ret
 
