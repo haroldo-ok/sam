@@ -1,3 +1,7 @@
+"Word wrap bug test 123 123 1234
+Word wrap bug test 123 123 123
+Word wrap bug test 123 123 12345"!
+
 123 456 	"Blah \# Bleh" 1["Blih"0] 0["Bloh"0] "Bluh"! 
 
 1A. 2B. 3C. 4D. 5E. 6F.

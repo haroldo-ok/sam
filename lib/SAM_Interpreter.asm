@@ -530,7 +530,7 @@ SAM_DisplayBuffer_Char_Not_LF:
 
 	; Your usual, everyday, printable char. Does the word wrapping.
 	ld e, a						; Saves the char
-	ld d, 0						; Inits counter (no words longer than 255, please.)
+	ld d, 1						; Inits counter (no words longer than 255, please.)
 	
 	push hl						; Saves current char pointer
 SAM_DisplayBuffer_WordSize_Loop:
@@ -913,6 +913,7 @@ SAM_Fetch_End:
 ;==============================================================
 
 .define TextArea_Width				30
+.define TextArea_Last_Index			TextArea_Width - 1
 .define TextArea_Height				6
 .define TextArea_BorderBottom		1
 .define TextArea_Top				24 - TextArea_Height - TextArea_BorderBottom

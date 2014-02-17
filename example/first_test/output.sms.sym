@@ -289,11 +289,11 @@
 0000:110c Tab_Script_Program3_txt.address
 0000:110e Tab_Script_Program3_txt.res_size
 0000:7b4b Script_script_txt
-0000:7e88 Script_script_txt_End
-0000:7e88 Script_Program2_txt
-0000:7f71 Script_Program2_txt_End
-0000:7f71 Script_Program3_txt
-0000:7f83 Script_Program3_txt_End
+0000:7ef0 Script_script_txt_End
+0000:7ef0 Script_Program2_txt
+0000:7fd9 Script_Program2_txt_End
+0000:7fd9 Script_Program3_txt
+0000:7feb Script_Program3_txt_End
 0000:113c Music_Resource_Table
 0000:113c Tab_Music_system_of_a_master_epsgmod
 0000:113c Tab_Music_system_of_a_master_epsgmod.slot
