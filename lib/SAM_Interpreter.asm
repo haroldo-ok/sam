@@ -571,6 +571,30 @@ SAM_DisplayBuffer_Char_Done:
 	ld a, c
 	or a
 	jr nz, SAM_DisplayBuffer_LineLoop
+	
+SAM_DisplayBuffer_Skip_Trailing:				; Skips trailing spaces on current line
+	ld a, (hl)
+	cp ' '
+	jr nz, SAM_DisplayBuffer_Skipped_Trailing
+	inc hl
+	jr SAM_DisplayBuffer_Skip_Trailing
+SAM_DisplayBuffer_Skipped_Trailing:
+	
+	; Checks if the cursor is exactly at the last column; if this is so, line breaks will have to be skipped
+	ld a, c
+	or a
+	jr nz, SAM_DisplayBuffer_EOL
+	
+	ld a, (hl)
+	cp 13					; CR exactly at end of column? Skips it.
+	jp nz, SAM_DisplayBuffer_No_CR_at_EOL
+	inc hl	
+SAM_DisplayBuffer_No_CR_at_EOL:
+	ld a, (hl)
+	cp 10					; LF exactly at end of column? Skips it.
+	jp nz, SAM_DisplayBuffer_EOL
+	inc hl	
+	
 
 SAM_DisplayBuffer_EOL:
 	; Skips right column
