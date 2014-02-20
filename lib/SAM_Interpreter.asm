@@ -46,7 +46,12 @@
 .ramsection "Variables" slot 3
 	SAM_Processes		instanceof	SAM_Proc_Info
 	SAM_Buffer			instanceof	SAM_String_Buffer
+
+	; Phantasy Star Gaiden Decompressor data buffer.
+	PSG_vram_ptr		dw          ; word: VRAM address
+	PSG_buffer			ds 32		; Phantasy Star Gaiden Decompressor data buffer.
 .ends
+
 
 .DEFINE PSGMOD_START_ADDRESS     $DC00
 .DEFINE PSGMOD_SUPPORT_GG_STEREO 0
@@ -806,10 +811,17 @@ SAM_DisplayImage:
 		pop iy
 
 SAM_DisplayImage_Load_Tileset:
-		ld de, (128 * 32) | $4000
+		push iy
+
 		ld l, (iy + SAM_Picture_Header.tileset)
 		ld h, (iy + SAM_Picture_Header.tileset+1)
-		call LoadTiles4BitRLE
+		push hl
+		pop ix							; Address of compressed data
+		ld hl, (128 * 32) | $4000		; VRAM address to write to, ORed with $4000
+		call PSG_decompress
+		
+		pop iy
+		
 ;		ld hl,128                         ; tile index to load at
 ;		ld e, (iy + SAM_Picture_Header.tileset)
 ;		ld d, (iy + SAM_Picture_Header.tileset+1)
@@ -818,6 +830,9 @@ SAM_DisplayImage_Load_Tileset:
 ;	    ld bc,280                        ; number of tiles
 ;	    ld d,4                          ; bits per pixel
 ;	    call LoadTiles
+; ld ix, <address of compressed data>
+; ld hl, <VRAM address to write to, ORed with $4000>
+; call PSG_decompress
 
 SAM_DisplayImage_Load_Tile_Numbers:
 	    ld hl,NameTableAddress

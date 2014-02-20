@@ -1,5 +1,3 @@
-0 i
-
 "Word wrap bug test 123 123 1234
 Word wrap bug test 123 123 123
 Word wrap bug test 123 123 12345"!
