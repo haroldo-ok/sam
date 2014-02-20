@@ -825,11 +825,17 @@ SAM_DisplayImage_Load_Tile_Numbers:
 		ld e, (iy + SAM_Picture_Header.map)
 		ld d, (iy + SAM_Picture_Header.map+1)
 		ex de, hl
-		ld bc, 1152
-	  -:ld a,(hl)  
-	    out ($be), a
+		; BMP2TILE tileoffset command line parameter doesn't work anymore, so it will be necessary to add 128 to everything
+		ld bc, 576
+	  -:ld a,(hl)  						; Low byte
+		add a, 128
+	    out ($be), a					; Tile number
 		inc hl
-		dec bc
+		ld a,(hl)  						; High byte
+		adc a, 0
+		out ($be), a					; Tile attr
+		inc hl
+		dec bc							; Loop control
 		ld a, b
 		or c
 	    jr nz, -
