@@ -116,9 +116,10 @@ VBLHandlerImpl:
 ;	call UpdateSprites
 	call ReadJoypads
 	call PSGMOD_Play
+	call SAM_Random_16	; Calls the RNG every frame to shuffle it a bit.
 
 	; Finalization of current interrupt
-    in a,($bf)		; Read VDP status to acknowledge interrupt.
+    in a,($bf)		; Read VDP status to acknowledge interrupt.	
 
 	SAM_POP_SLOT_2
 	SAM_POP_SLOT_1
