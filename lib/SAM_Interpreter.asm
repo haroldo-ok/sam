@@ -46,6 +46,8 @@
 .ramsection "Variables" slot 3
 	SAM_Processes		instanceof	SAM_Proc_Info
 	SAM_Buffer			instanceof	SAM_String_Buffer
+	
+	SAM_Random_Seed		dw			; word: Seed for the RNG
 
 	; Phantasy Star Gaiden Decompressor data buffer.
 	PSG_vram_ptr		dw          ; word: VRAM address
@@ -950,6 +952,42 @@ SAM_Fetch:
 
 SAM_Fetch_End:
 	ret;
+
+
+;================================================
+SAM_Random_16:
+;================================================
+	; Based on http://baze.au.com/misc/z80bits.html#4
+	
+	; Load seed into DE 
+	ld a, (SAM_Random_Seed)
+	ld e, a
+	ld a, (SAM_Random_Seed + 1)
+	ld d, a
+	
+	; does the RNG voodoo
+	ld	a,d
+	ld	h,e
+	ld	l,253
+	or	a
+	sbc	hl,de
+	sbc	a,0
+	sbc	hl,de
+	ld	d,0
+	sbc	a,d
+	ld	e,a
+	sbc	hl,de
+	jr	nc,SAM_Random_16_End
+	inc	hl
+	
+SAM_Random_16_End:
+	; Stores new seed into memory
+	ld a, l
+	ld (SAM_Random_Seed), a
+	ld a, h
+	ld (SAM_Random_Seed + 1), a
+	ret
+	
 		 
 .ends
 

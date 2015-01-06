@@ -24,6 +24,7 @@ $ 	Return from subroutine
 i	Displays an image
 j	Jump to another program
 c	Calls another program (Will return to current program when the instruction $ is found).
+r	Generates a random number between 0 and 32767
 
 Examples:
 
@@ -35,3 +36,4 @@ Break"! ~ Writes a message with a line break.
 X: Y: + 3 / Z. ~ Means: Z = (X + Y) / 2
 Z: 0 = [ "Okay"! 0] ~ Displays "Okay" if Z == 0
 3 A. A:[ "\#"! A: 1 - A. A:] ~ Means for (A = 3; A != 0; A--) { print(A); }
+r6\1+ "Random number: \#" ~ Prints a random number between 1 and 6.

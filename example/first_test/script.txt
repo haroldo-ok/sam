@@ -12,6 +12,12 @@ Word wrap bug test 123 123 12345"!
  A: B: C: D: E: F:
 "\# \# \# \# \# \#"!
 
+r r r r r
+"Those are random numbers: \# \# \# \# \#"
+
+r6\1+ r6\1+ r6\1+ r6\1+ r6\1+
+"Those are random numbers: \# \# \# \# \#"!
+
 ~ This is a line comment
 3 A. 
 A:[

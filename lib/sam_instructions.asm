@@ -415,7 +415,18 @@ SAM_INS_DOLLAR_SIGN:		; '$' Returns from subroutine
 ;================================================
 	SAM_RETURN
 
+	
+;================================================
+SAM_INS_LOWERCASE_R:		; 'r' Generates a random number between 0 and 32767
+;================================================
+	call SAM_Random_16
+	ld a, h
+	and $7F
+	ld h, a
+	SAM_PUSH_HL_DATA
+	SAM_NEXT_INSTRUCTION
 
+	
 SAM_INS_NUMBER_SIGN:		; '#'
 SAM_INS_PERCENT_SIGN:		; '%'
 SAM_INS_AMPERSAND:		; '&'
@@ -441,7 +452,6 @@ SAM_INS_LOWERCASE_N:		; 'n'
 SAM_INS_LOWERCASE_O:		; 'o'
 SAM_INS_LOWERCASE_P:		; 'p'
 SAM_INS_LOWERCASE_Q:		; 'q'
-SAM_INS_LOWERCASE_R:		; 'r'
 SAM_INS_LOWERCASE_S:		; 's'
 SAM_INS_LOWERCASE_T:		; 't'
 SAM_INS_LOWERCASE_U:		; 'u'
