@@ -22,7 +22,7 @@
 
 .struct SAM_Proc_Info
 	data_stack		dsw		32
-	local_vars		dsw		26
+	local_vars		dsw		128
 .endst
 
 .struct SAM_String_Buffer
