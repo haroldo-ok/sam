@@ -170,17 +170,7 @@ main:
     ld d,1                          ; bits per pixel
     call LoadTiles
 
-    ; Main screen turn on!
-    ld a,%11100100
-;          |||| |`- Zoomed sprites -> 16x16 pixels
-;          |||| `-- Doubled sprites -> 2 tiles per sprite, 8x16
-;          |||`---- 30 row/240 line mode
-;          ||`----- 28 row/224 line mode
-;          |`------ VBlank interrupts
-;          `------- Enable display
-    out ($bf),a
-    ld a,$81
-    out ($bf),a
+	call SAM_Screen_On
 
 	ei
 	
@@ -803,6 +793,8 @@ SAM_ResetBuffer:
 ;================================================
 SAM_DisplayImage:
 ;================================================
+	call SAM_Screen_Off
+
 	push ix
 	push iy
 	
@@ -866,6 +858,8 @@ SAM_DisplayImage_Load_Palette:
 	    ld c,$00                        ; index to load at
 	    call LoadPalette
 
+	call SAM_Screen_On
+	
 	pop iy
 	pop ix
 	ret
@@ -987,6 +981,33 @@ SAM_Random_16_End:
 	ld (SAM_Random_Seed), a
 	ld a, h
 	ld (SAM_Random_Seed + 1), a
+	ret
+
+
+;================================================
+SAM_Screen_Off:
+;================================================
+    ld a,%10100100
+    out ($bf),a
+    ld a,$81
+    out ($bf),a
+	ret
+
+
+;================================================
+SAM_Screen_On:
+;================================================
+    ; Main screen turn on!
+    ld a,%11100100
+;          |||| |`- Zoomed sprites -> 16x16 pixels
+;          |||| `-- Doubled sprites -> 2 tiles per sprite, 8x16
+;          |||`---- 30 row/240 line mode
+;          ||`----- 28 row/224 line mode
+;          |`------ VBlank interrupts
+;          `------- Enable display
+    out ($bf),a
+    ld a,$81
+    out ($bf),a
 	ret
 	
 		 
