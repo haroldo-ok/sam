@@ -470,6 +470,8 @@ SAM_ClearTextArea_Loop:
 ;================================================
 SAM_DisplayBuffer:
 ;================================================
+	call SAM_Screen_Off
+	
 	;  Gets pointer to the end of the buffer
 	ld hl, SAM_Buffer.top
 	call SAM_Dereference_HL
@@ -607,13 +609,13 @@ SAM_DisplayBuffer_EOL:
 	jr nz, SAM_DisplayBuffer_AreaLoop
 
 	; Wait for button press
-	call WaitForButton
+	call SAM_WaitForButton
 
 	jr SAM_DisplayBuffer_Loop
 SAM_DisplayBuffer_Loop_End:
 
 	; Wait for button press
-	call WaitForButton
+	call SAM_WaitForButton
 	
 	; Resets the buffer for next time
 	call SAM_ResetBuffer
@@ -636,6 +638,8 @@ SAM_DisplayBuffer_LF_Loop:
 ;================================================
 SAM_DisplayMenu:
 ;================================================
+	call SAM_Screen_Off
+
 	;  Gets pointer to the end of the buffer
 	ld hl, SAM_Buffer.top
 	call SAM_Dereference_HL
@@ -698,6 +702,7 @@ SAM_DisplayMenu_Char_Not_LF:
 	dec c
 	jr SAM_DisplayMenu_Line_Loop
 SAM_DisplayMenu_Loop_End:
+	call SAM_Screen_On
 
 	ld c, 0
 SAM_DisplayMenu_Select_Loop:
@@ -758,7 +763,7 @@ SAM_DisplayMenu_Select_Loop_NotDown:
 SAM_DisplayMenu_Select_Loop_End:
 
 	; Wait for button press
-	call WaitForButton
+	call SAM_WaitForButton
 
 	; Hides the cursor sprite
 	add a, -16
@@ -1009,7 +1014,13 @@ SAM_Screen_On:
     ld a,$81
     out ($bf),a
 	ret
-	
+
+
+;================================================
+SAM_WaitForButton:
+;================================================
+	call SAM_Screen_On
+	jp WaitForButton
 		 
 .ends
 
