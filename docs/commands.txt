@@ -33,7 +33,7 @@ Examples:
 Break"! ~ Writes a message with a line break.
 1 2 + "Result: \#"! ~ Does a math operation and displays the result.
 3 2 * A. ~ Means: A = 3 * 2
-X: Y: + 3 / Z. ~ Means: Z = (X + Y) / 2
+X: Y: + 3 / Z. ~ Means: Z = (X + Y) / 3
 Z: 0 = [ "Okay"! 0] ~ Displays "Okay" if Z == 0
 3 A. A:[ "\#"! A: 1 - A. A:] ~ Means for (A = 3; A != 0; A--) { print(A); }
-r6\1+ "Random number: \#" ~ Prints a random number between 1 and 6.
+r 6 \ 1 + "Random number: \#" ~ Prints "Random number: " and a random number between 1 and 6.
