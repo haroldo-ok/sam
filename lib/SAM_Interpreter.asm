@@ -535,8 +535,11 @@ SAM_DisplayBuffer_Char_Not_LF:
 	push hl						; Saves current char pointer
 SAM_DisplayBuffer_WordSize_Loop:
 	ld a, (hl)
-	cp (' ' + 1)
+	cp 16h						; SYM is treated as non-breaking space
+	jr z, SAM_DisplayBuffer_WordSize_Printable
+	cp (' ' + 1)				; Other control chars and space are treated as blanks
 	jr c, SAM_DisplayBuffer_WordSize_Loop_End
+SAM_DisplayBuffer_WordSize_Printable:
 	inc d
 	inc hl
 	jr SAM_DisplayBuffer_WordSize_Loop
@@ -559,6 +562,10 @@ SAM_DisplayBuffer_WordSize_TooBig:
 	ld a, e						; Restores the char
 	
 SAM_DisplayBuffer_Char_Display:
+	cp 16h						; SYM is being treated as non-breaking space
+	jr nz, SAM_DisplayBuffer_Char_Display_Printable
+	ld a, ' '					
+SAM_DisplayBuffer_Char_Display_Printable:
 	; Outputs char
 	add a, -32
     out ($be),a
@@ -611,7 +618,7 @@ SAM_DisplayBuffer_EOL:
 	; Wait for button press
 	call SAM_WaitForButton
 
-	jr SAM_DisplayBuffer_Loop
+	jp SAM_DisplayBuffer_Loop
 SAM_DisplayBuffer_Loop_End:
 
 	; Wait for button press
