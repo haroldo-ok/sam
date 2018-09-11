@@ -665,7 +665,7 @@ SAM_DisplayMenu:
 	ld hl, SAM_Buffer.buffer
 
 	; Initializes option counter
-	ld b, 0								; Menu item counter (Will go wrong if number of items is zero, but it doesn't matter.)
+	ld b, -1								; Menu item counter (Will go wrong if number of items is zero, but it doesn't matter.)
 
 	; Outputs the buffer contents
 SAM_DisplayMenu_Loop:
@@ -718,7 +718,7 @@ SAM_DisplayMenu_Select_Loop:
 	add a, a
 	add a, a
 	add a, a
-	add a, 136
+	add a, 135
 	ld (hw_sprites_y), a
 	ld a, 8
 	ld (hw_sprites_xc), a
@@ -738,8 +738,18 @@ SAM_DisplayMenu_Select_Loop_Up:
 	ld a, c
 	or a
 	jr z, SAM_DisplayMenu_Select_Loop_Wait_Release	; If it's at the top of the menu, don't do anything
-
+    
 	dec c											; Decrements menu index
+	
+	;soundfx
+	;call SAM_SoundEffect
+	ld a, %11001110 ; $8e
+	out ($7f), a
+	ld a, %01001111 ; $f3
+	out ($7f), a
+	ld a, %11010000
+	out ($7f), a
+	
 	jr SAM_DisplayMenu_Select_Loop_Wait_Release	
 
 SAM_DisplayMenu_Select_Loop_NotUp:
@@ -752,7 +762,14 @@ SAM_DisplayMenu_Select_Loop_Down:
 	ld a, c
 	cp b
 	jr nc, SAM_DisplayMenu_Select_Loop_Wait_Release		; If it's at the bottom of the menu, don't go further down.
-
+	;soundfx
+	;call SAM_SoundEffect
+	ld a, %11001110 ; $8e
+	out ($7f), a
+	ld a, %01001111 ; $f3
+	out ($7f), a
+	ld a, %11010000
+	out ($7f), a
 	inc c
 	
 SAM_DisplayMenu_Select_Loop_Wait_Release:
@@ -1031,9 +1048,21 @@ SAM_WaitForButton:
 		 
 .ends
 
+;=========================================================
+SAM_SoundEffect:  ; I need to learn how to return properly
+;=========================================================
+	ld a, %11001110 ; $8e
+	out ($7f), a
+	ld a, %01001111 ; $f3
+	out ($7f), a
+	ld a, %11010000
+	out ($7f), a
+
 ;==============================================================
 ; Data
 ;==============================================================
+Module:
+  ;.incbin "sfx.epsgmod"
 
 .define TextArea_Width				30
 .define TextArea_Last_Index			TextArea_Width - 1
